@@ -13,14 +13,14 @@ class Day1(filename: String): BaseDay() {
     }
 
     override fun part1(): String {
-        val increasedMap = values.windowed(2).map { it[1] > it.first() }
+        val increasedMap = values.windowed(2).map { it.last() > it.first() }
         val numIncreased = increasedMap.count { it }
         return numIncreased.toString()
     }
 
     override fun part2(): String {
         val windowSums = values.windowed(3).map { it.sum() }
-        val increasedMap = windowSums.windowed(2).map { it[1] > it.first() }
+        val increasedMap = windowSums.windowed(2).map { it.last() > it.first() }
         val numIncreased = increasedMap.count { it }
         return numIncreased.toString()
     }
