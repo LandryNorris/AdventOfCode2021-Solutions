@@ -20,30 +20,20 @@ class Day3(filename: String): BaseDay() {
     }
 
     override fun part2(): String {
-        val filteredMostCommon = filterMostCommon(lines)
-        val filteredLeastCommon = filterLeastCommon(lines)
-        
+        val filteredMostCommon = filterEach(lines) { mostCommon() }
+        val filteredLeastCommon = filterEach(lines) { leastCommon() }
+
         val o2Rating = filteredMostCommon.first().bitArrayToInt()
         val co2Rating = filteredLeastCommon.first().bitArrayToInt()
         return (o2Rating*co2Rating).toString()
     }
 
-    fun filterMostCommon(original: List<List<Int>>): List<List<Int>>  {
+    private fun filterEach(original: List<List<Int>>, transform: List<Int>.() -> Int): List<List<Int>>  {
         var filteredMostCommon = original.map { it }
         bitValues.forEachIndexed { index, _ ->
-            val mostCommonDigit = filteredMostCommon.map { it[index] }.mostCommon()
+            val mostCommonDigit = filteredMostCommon.map { it[index] }.transform()
             filteredMostCommon = filteredMostCommon.filter { it[index] == mostCommonDigit }
             if(filteredMostCommon.size == 1) return filteredMostCommon
-        }
-        return emptyList()
-    }
-
-    fun filterLeastCommon(original: List<List<Int>>): List<List<Int>>  {
-        var filteredLeastCommon = original.map { it }
-        bitValues.forEachIndexed { index, _ ->
-            val leastCommonDigit = filteredLeastCommon.map { it[index] }.leastCommon()
-            filteredLeastCommon = filteredLeastCommon.filter { it[index] == leastCommonDigit }
-            if(filteredLeastCommon.size == 1) return filteredLeastCommon
         }
         return emptyList()
     }
