@@ -4,13 +4,13 @@ import BaseDay
 import java.io.File
 
 class Day4(filename: String): BaseDay() {
-    val contents = File(filename).readText().lines()
+    private val contents = File(filename).readText().lines()
 
-    val draws = contents.first().split(',').map { it.toInt() }
-    val drawIterator = draws.iterator()
+    private val draws = contents.first().split(',').map { it.toInt() }
+    private val drawIterator = draws.iterator()
 
     //We want to get rid of the first line, since we already used it.
-    val bingoCards = contents.subList(1, contents.size).chunked(6).parseBingo()
+    private val bingoCards = contents.subList(1, contents.size).chunked(6).parseBingo()
 
     override fun part1(): String {
         var currentDraw = 0
@@ -25,7 +25,6 @@ class Day4(filename: String): BaseDay() {
 
     override fun part2(): String {
         var currentDraw = 0
-        val winningCards = arrayListOf<BingoCard>()
         var winningCard: BingoCard? = null
         while(!bingoCards.all { it.isComplete() }) {
             currentDraw = drawIterator.next()
@@ -34,9 +33,7 @@ class Day4(filename: String): BaseDay() {
                 it.makeMove(currentDraw)
                 if(!wasComplete && it.isComplete()) winningCard = it
             }
-
         }
-        //val winningCard = bingoCards.last()
         val sumUnmarked = winningCard?.sumUnmarked() ?: return ""
         return (currentDraw*sumUnmarked).toString()
     }
