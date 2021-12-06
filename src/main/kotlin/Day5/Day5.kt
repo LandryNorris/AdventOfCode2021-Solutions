@@ -61,13 +61,15 @@ class Day5(filename: String): BaseDay() {
     }
 
     data class Line(val start: Point, val end: Point) {
+        val slope = (end.y-start.y)/(end.x-start.x).toDouble()
+
         private fun collinear(point: Point): Boolean {
             //check horizontal and vertical
             if(start.x == end.x) return point.x == start.x
             if(start.y == end.y) return point.y == start.y
             val a = (point.y-start.y)/(end.y-start.y).toDouble()
             val b = (point.x-start.x)/(end.x-start.x).toDouble()
-            return abs(a-b) < 0.01 //we want to avoid floating point error, so we check that it's "close enough".
+            return abs(a-b) < 0.001 //we want to avoid floating point error, so we check that it's "close enough".
         }
 
         fun contains(point: Point): Boolean {
